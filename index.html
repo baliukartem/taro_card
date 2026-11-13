@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Таро Світла</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔮</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Manrope:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg1:#2f1440;--bg2:#12071c;--gold:#e8c46a;--cream:#f6ecd6;--ink:#2b1a33;--glow:#ffd98a;--text:#f3e9ff}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{font-family:Manrope,system-ui,sans-serif;color:var(--text);text-align:center;
+  background:radial-gradient(ellipse at 50% 0%,var(--bg1),var(--bg2) 70%) fixed;padding:28px 16px 60px;overflow-x:hidden}
+.stars{position:fixed;inset:0;pointer-events:none;
+  background-image:radial-gradient(1.5px 1.5px at 20% 30%,#fff8,transparent),radial-gradient(1px 1px at 70% 20%,#fff8,transparent),radial-gradient(1.5px 1.5px at 85% 65%,#ffe9a888,transparent),radial-gradient(1px 1px at 35% 80%,#fff8,transparent),radial-gradient(1px 1px at 55% 55%,#fff6,transparent),radial-gradient(1.5px 1.5px at 10% 70%,#ffe9a888,transparent);
+  animation:twinkle 5s ease-in-out infinite alternate}
+@keyframes twinkle{from{opacity:.45}to{opacity:1}}
+#dark{position:fixed;inset:0;background:#000;opacity:0;pointer-events:none;z-index:50}
+#dark.go{animation:blackout 1.3s steps(1) 1}
+@keyframes blackout{0%{opacity:.85}12%{opacity:0}25%{opacity:.9}38%{opacity:.1}55%{opacity:.8}70%{opacity:0}100%{opacity:0}}
+main{position:relative;max-width:760px;margin:0 auto}
+h1{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(2.4rem,8vw,4rem);margin:8px 0 6px;color:var(--gold);letter-spacing:.02em;animation:flick 6s infinite}
+@keyframes flick{0%,92%,96%,100%{opacity:1;text-shadow:0 0 22px #e8c46a66}94%{opacity:.55;text-shadow:none}98%{opacity:.8}}
+.sub{margin:0 auto 30px;max-width:46ch;opacity:.8;line-height:1.5}
+.stage{position:relative;margin-bottom:34px;transition:transform .9s cubic-bezier(.65,0,.25,1)}
+.table{display:flex;gap:clamp(10px,3vw,24px);justify-content:center}
+.slot{width:clamp(92px,28vw,190px);perspective:900px;transition:filter .7s,opacity .3s}
+.slot.out{opacity:0}
+.stage.focus .slot:not(.active){filter:brightness(.35) blur(1.5px)}
+.slot small{display:block;margin-bottom:8px;opacity:.7;font-size:.85rem}
+.card{position:relative;aspect-ratio:2/3.2;transform-style:preserve-3d;transition:transform 1s cubic-bezier(.3,1.4,.5,1)}
+.card.flip{transform:rotateY(180deg)}
+.idle .card{animation:float 4s ease-in-out infinite}
+.idle:nth-child(2) .card{animation-delay:-1.3s}.idle:nth-child(3) .card{animation-delay:-2.6s}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-1.5deg)}50%{transform:translateY(-10px) rotate(1.5deg)}}
+.face{position:absolute;inset:0;border-radius:14px;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:3px solid var(--gold);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px;box-shadow:0 10px 34px #000a}
+.back{background:repeating-conic-gradient(from 0deg at 50% 50%,#4a1f63 0 15deg,#3a1650 15deg 30deg);color:var(--gold);font-size:clamp(2rem,9vw,3.4rem)}
+.back::after{content:"";position:absolute;inset:8px;border:1px solid var(--gold);border-radius:8px;opacity:.6}
+.front{background:linear-gradient(160deg,#fff7e2,#eedcb4);color:var(--ink);transform:rotateY(180deg)}
+.card.flip .front{animation:glow 1.8s .5s ease-out}
+@keyframes glow{0%{box-shadow:0 0 0 #0000}30%{box-shadow:0 0 44px 12px var(--glow)}100%{box-shadow:0 10px 34px #000a}}
+.emoji{font-size:clamp(2rem,10vw,3.8rem);line-height:1}
+.name{font-family:'Cormorant Garamond',Georgia,serif;font-weight:700;font-size:clamp(.9rem,3.6vw,1.35rem);margin:8px 0 4px;line-height:1.05}
+.desc{font-size:clamp(.62rem,2.3vw,.8rem);line-height:1.3;opacity:.8}
+.spark{position:absolute;left:50%;top:50%;width:7px;height:7px;border-radius:50%;background:var(--glow);box-shadow:0 0 10px 2px var(--glow);pointer-events:none}
+button{font:600 1.05rem Manrope,sans-serif;color:var(--ink);background:linear-gradient(180deg,#f7d98a,#d9a940);border:0;border-radius:999px;padding:14px 30px;cursor:pointer;box-shadow:0 6px 22px #e8c46a44;transition:transform .15s}
+button:hover{transform:scale(1.04)}button:active{transform:scale(.97)}
+button:disabled{opacity:.6;cursor:wait;transform:none}
+button.alt{background:transparent;color:var(--gold);border:2px solid var(--gold);box-shadow:none}
+button:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.verdict{margin:34px auto 0;max-width:540px;padding:24px 20px;border:1px solid #e8c46a66;border-radius:18px;background:#ffffff0d;text-align:left;display:none}
+.verdict.show{display:block;animation:pop .8s cubic-bezier(.2,1.2,.4,1)}
+@keyframes pop{from{opacity:0;transform:scale(.9) translateY(30px)}}
+.verdict h2{font-family:'Cormorant Garamond',Georgia,serif;margin:0 0 6px;font-size:1.9rem;color:var(--gold);text-align:center}
+.hours{text-align:center;margin:6px 0}
+.hours b{font-family:'Cormorant Garamond',Georgia,serif;font-size:4.2rem;color:var(--glow);text-shadow:0 0 26px #ffd98a88;line-height:1}
+.hours span{margin-left:8px;opacity:.85}
+.bar{display:flex;gap:5px;margin:8px 0 18px}
+.bar i{flex:1;height:14px;border-radius:4px;background:#ffffff22}
+.bar i.on{background:linear-gradient(180deg,#ffe59a,#f0b73c);box-shadow:0 0 10px #ffd98a88;animation:lit .5s both;animation-delay:var(--d)}
+@keyframes lit{from{filter:brightness(.2);transform:scaleY(.4)}}
+ul{list-style:none;margin:0;padding:0}
+li{display:flex;gap:12px;padding:10px 0;border-top:1px solid #ffffff1a;line-height:1.45;animation:rise .6s both;animation-delay:var(--d)}
+li span{font-size:1.4rem}
+@keyframes rise{from{opacity:0;transform:translateX(-22px)}}
+.actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:20px;animation:rise .6s 2.2s both}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,80px);background:var(--gold);color:var(--ink);padding:10px 18px;border-radius:999px;font-weight:600;transition:transform .4s;z-index:60}
+.toast.on{transform:translate(-50%,0)}
+.snd{position:fixed;top:14px;right:14px;z-index:60;width:44px;height:44px;padding:0;font-size:1.2rem;background:#ffffff14;color:var(--text);box-shadow:none;border:1px solid #e8c46a66}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01s!important;animation-delay:0s!important;transition-duration:.01s!important}}
+</style>
+</head>
+<body>
+<div class="stars" aria-hidden="true"></div>
+<div id="dark" aria-hidden="true"></div>
+<main>
+  <h1>Таро Світла</h1>
+  <p class="sub">Графіки обленерго змінюються частіше, ніж настрій. Карти знають краще. Спитай їх.</p>
+  <div class="stage" id="stage"><div class="table" id="table"></div></div>
+  <button id="go">Розкласти карти</button>
+  <section class="verdict" id="verdict" aria-live="polite"></section>
+</main>
+<div class="toast" id="toast"></div>
+<button class="snd" id="snd" aria-label="Увімкнути або вимкнути звук">🔊</button>
+<script>
+const DECK=[
+ {e:'💡',n:'Лампочка Долі',d:'Щось таки засвітиться',s:2},
+ {e:'🔋',n:'Повний павербанк',d:'Ти підготовлений, як ніколи',s:2},
+ {e:'☀️',n:'Сонце',d:'Світло повернулось, і не тільки у вікні',s:2},
+ {e:'⚡',n:'Фаза',d:'Є напруга, але не там, де треба',s:1},
+ {e:'🕯️',n:'Свічка Відлюдника',d:'Романтика без вибору',s:-1},
+ {e:'🧊',n:'Холодильник',d:'Тиша. Занадто тиха тиша',s:-2},
+ {e:'🌑',n:'Темна Вежа',d:'Сусіди теж без світла',s:-2},
+ {e:'🔌',n:'Розетка Невіри',d:'Вона є, а толку нема',s:-1},
+ {e:'📱',n:'Три відсотки',d:'Зарядка сказала своє слово',s:-2},
+ {e:'🍳',n:'Електроплита',d:'Час мудрих рішень',s:1},
+ {e:'📡',n:'Мертвий вайфай',d:'Роутер зник у тумані',s:-1},
+ {e:'🧙',n:'Електрик Дядя Вася',d:'Каже, що виправить. Каже.',s:0},
+ {e:'🌀',n:'Колесо Графіка',d:'Було «2 через 2», стало «хтозна-як»',s:0},
+ {e:'🐈',n:'Кіт на Ноутбуці',d:'Нічого не змінить, але тепло',s:0},
+ {e:'👁️',n:'Око Укренерго',d:'Бачить усе. Каже мало.',s:0},
+ {e:'🎰',n:'Колесо Фортуни',d:'Вранці вимкнули, вночі ввімкнули',s:1},
+ {e:'🛗',n:'Застряглий Ліфт',d:'Між поверхами і між сенсами',s:-2},
+ {e:'🏭',n:'Генератор Сусіда',d:'Гуде, але не для тебе',s:-1}
+];
+const CATS=[
+ {i:'🍽️',hi:['Вечеря встигне. Навіть десерт.','Готуй що хочеш, хоч у три підходи.'],mid:['Яєчня гарантована, борщ під питанням.','Швидка вечеря вийде, якщо почнеш зараз, а не «ще п’ять хвилин».'],lo:['Бутерброди. Не сперечайся з картами.','Вечеря буде холодною і філософською.']},
+ {i:'🚿',hi:['Голову мий сміливо, ще й феном висушиш.','Мий голову й роби укладку. Ти це заслужив.'],mid:['Голову помити встигнеш, а сушити будеш природним способом.','Мий швидко, без масок, скрабів і ритуалів.'],lo:['Голову краще не мити. Вода буде холодна, як ставлення до тебе.','Сьогодні твій найкращий аксесуар це кепка.']},
+ {i:'🛗',hi:['Ліфт сьогодні благосклонний, катайся.','Ліфт у твоєму настрої. Тисни кнопку впевнено.'],mid:['На ліфті краще їхати з кимось, для компанії.','Їдь, але ліхтарик у телефоні напоготові.'],lo:['Краще на ліфті поки не кататись.','Сходи. Ноги не підведуть, а ліфт ще й як.']},
+ {i:'📱',hi:['Заряди все: телефон, павербанк, навіть годинник.','Зарядиться все, навіть те, про що ти забув.'],mid:['Заряди телефон, а решта вже як вийде.','Павербанк у першу чергу, решта за обставинами.'],lo:['Три відсотки це не стан батареї, а спосіб життя.','Пріоритет зарядки: телефон, ліхтарик, потім сенс життя.']},
+ {i:'🧺',hi:['Пральна машинка за, запускай два цикли.','Постав прання, поки Всесвіт у хорошому настрої.'],mid:['Прання почнеться, а чи закінчиться, ніхто не знає.','Білизна повисить у машинці в очікуванні.'],lo:['Прання краще перенести або прати руками.','Машинка зависне на середині. Як і ти.']},
+ {i:'🎮',hi:['Серіал, гра чи кіно, вибирай що завгодно.','Серія за серією, і ніхто не заважає.'],mid:['Одна серія вміститься. Може, півтори.','Катка в гру на 20 хвилин, не більше.'],lo:['Час для настолок і свічок. Це знак.','Книжка вже чекає. Їй розетка не потрібна.']},
+ {i:'📞',hi:['Відеодзвінок мамі вийде в HD.','Інтернет живий, пиши всім підряд.'],mid:['Дзвінок вийде, але недовгий.','Роутер дихає, але ледве.'],lo:['Зв’язок піде в тінь. Пиши смс, як у давнину.','Вайфай оголосив собі відпустку.']},
+ {i:'🥶',hi:['Холодильник у безпеці, морозиво теж.','Усе заморожене лишається замороженим.'],mid:['Холодильник протримається, тільки не відкривай його без діла.','Морозиво краще з’їсти до вечора, на всяк випадок.'],lo:['Морозиво треба їсти зараз, а не потім.','Холодильник тримає оборону, а ти тримай двері зачиненими.']}
+];
+const TITLES={hi:'Карти кажуть: живемо',mid:'Карти кажуть: тримайся',lo:'Карти кажуть: готуй свічки'};
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+const $=id=>document.getElementById(id);
+const table=$('table'),stage=$('stage'),go=$('go'),verdict=$('verdict');
+table.innerHTML=['Зараз','Далі','Потім'].map(l=>`<div class="slot idle"><small>${l}</small><div class="card"><div class="face back">☾</div><div class="face front"></div></div></div>`).join('');
+const slots=[...table.querySelectorAll('.slot')];
+let last=null;
+
+
+/* ---------- звук (WebAudio, без файлів) ---------- */
+let AC=null,muted=false;
+try{muted=localStorage.getItem('taro-muted')==='1'}catch(e){}
+function out(){
+  if(muted)return null;
+  if(!AC){const C=window.AudioContext||window.webkitAudioContext;if(C)AC=new C()}
+  if(AC&&AC.state==='suspended')AC.resume();
+  return AC;
+}
+function tone(f,d,o={}){
+  const a=out();if(!a)return;
+  const {t=0,type='sine',v=.15,to}=o,n=a.currentTime+t,osc=a.createOscillator(),g=a.createGain();
+  osc.type=type;osc.frequency.setValueAtTime(f,n);
+  if(to)osc.frequency.exponentialRampToValueAtTime(to,n+d);
+  g.gain.setValueAtTime(0,n);g.gain.linearRampToValueAtTime(v,n+.015);g.gain.exponentialRampToValueAtTime(.0001,n+d);
+  osc.connect(g);g.connect(a.destination);osc.start(n);osc.stop(n+d+.05);
+}
+function noise(d,o={}){
+  const a=out();if(!a)return;
+  const {t=0,f1=400,f2=3000,v=.2,q=1}=o,n=a.currentTime+t,len=Math.floor(a.sampleRate*d),
+  b=a.createBuffer(1,len,a.sampleRate),ch=b.getChannelData(0);
+  for(let i=0;i<len;i++)ch[i]=Math.random()*2-1;
+  const src=a.createBufferSource(),fl=a.createBiquadFilter(),g=a.createGain();
+  src.buffer=b;fl.type='bandpass';fl.Q.value=q;
+  fl.frequency.setValueAtTime(f1,n);fl.frequency.exponentialRampToValueAtTime(f2,n+d);
+  g.gain.setValueAtTime(0,n);g.gain.linearRampToValueAtTime(v,n+d*.3);g.gain.linearRampToValueAtTime(0,n+d);
+  src.connect(fl);fl.connect(g);g.connect(a.destination);src.start(n);
+}
+const sfx={
+  shuffle(){for(let k=0;k<9;k++)noise(.05,{t:k*.06,f1:2200,f2:5200,v:.12,q:2})},
+  whoosh(){noise(.8,{f1:300,f2:2600,v:.25})},
+  back(){noise(.6,{f1:2200,f2:300,v:.16})},
+  zoom(){tone(110,.9,{type:'sawtooth',v:.04,to:260});tone(55,.9,{v:.12,to:90})},
+  flip(){noise(.14,{f1:1500,f2:4200,v:.3,q:3});tone(90,.3,{type:'triangle',v:.3,to:45})},
+  chime(){[784,1175,1568,2093].forEach((f,i)=>tone(f,1.3,{t:i*.07,v:.07}))},
+  buzz(){[0,.33,.7].forEach(t=>{tone(100,.18,{t,type:'sawtooth',v:.12});noise(.18,{t,f1:800,f2:1200,v:.15,q:.7})})},
+  click(){tone(760,.07,{type:'triangle',v:.12})},
+  verdict(h){
+    for(let i=0;i<h;i++)tone(900+i*130,.09,{t:.3+i*.18,type:'square',v:.04});
+    if(h>=4)[523,659,784,1047].forEach((f,i)=>tone(f,1.1,{t:.2+i*.11,type:'triangle',v:.13}));
+    else if(h>=2)[440,523,659].forEach((f,i)=>tone(f,.9,{t:.2+i*.14,type:'triangle',v:.12}));
+    else{tone(420,1.3,{t:.1,type:'sawtooth',v:.1,to:45});[220,185,147].forEach((f,i)=>tone(f,.7,{t:.2+i*.25,type:'triangle',v:.12}))}
+  }
+};
+function setMuteIcon(){const b=document.getElementById('snd');if(b)b.textContent=muted?'🔇':'🔊'}
+
+function burst(slot){
+  for(let k=0;k<18;k++){
+    const s=document.createElement('i');s.className='spark';slot.appendChild(s);
+    const a=Math.random()*6.28,r=70+Math.random()*90;
+    s.animate([{transform:'translate(-50%,-50%) scale(1)',opacity:1},{transform:`translate(${Math.cos(a)*r}px,${Math.sin(a)*r}px) scale(0)`,opacity:0}],{duration:900+Math.random()*500,easing:'ease-out'}).finished.then(()=>s.remove());
+  }
+}
+function timeAfter(min){return new Date(Date.now()+min*60000).toLocaleTimeString('uk-UA',{hour:'2-digit',minute:'2-digit'})}
+
+async function draw(){
+  go.disabled=true;go.textContent='Карти тасуються…';sfx.shuffle();
+  verdict.classList.remove('show');
+  slots.forEach(s=>{s.classList.add('out');s.querySelector('.card').classList.remove('flip')});
+  await wait(450);
+  const hand=[...DECK].sort(()=>Math.random()-.5).slice(0,3);
+  for(let i=0;i<3;i++){
+    const s=slots[i],c=s.querySelector('.card');
+    s.classList.remove('idle');
+    s.querySelector('.front').innerHTML=`<div class="emoji">${hand[i].e}</div><div class="name">${hand[i].n}</div><div class="desc">${hand[i].d}</div>`;
+    s.classList.remove('out');sfx.whoosh();
+    await s.animate([{transform:`translate(${(1-i)*-80}px,110vh) rotate(${(i-1)*35+25}deg) scale(.5)`,opacity:0},{opacity:1,offset:.2},{transform:'translate(0,0) rotate(0) scale(1)',opacity:1}],{duration:1000,easing:'cubic-bezier(.2,.9,.25,1.08)'}).finished;
+    stage.style.transformOrigin=`${s.offsetLeft+s.offsetWidth/2}px ${s.offsetTop+s.offsetHeight/2}px`;
+    s.classList.add('active');stage.classList.add('focus');
+    stage.style.transform=`scale(${innerWidth<600?1.7:1.45}) rotate(${(1-i)*1.6}deg)`;sfx.zoom();
+    await wait(800);
+    sfx.flip();c.classList.add('flip');await wait(500);
+    burst(s);sfx.chime();await wait(1000);
+    stage.style.transform='none';stage.classList.remove('focus');s.classList.remove('active');sfx.back();
+    await wait(750);
+  }
+  const score=hand.reduce((a,c)=>a+c.s,0);
+  const hours=Math.max(0,Math.min(6,3+score+Math.floor(Math.random()*3)-1));
+  const tier=hours>=4?'hi':hours>=2?'mid':'lo';
+  const outage=hours>=6?'Схоже, сьогодні світло не вимкнуть. Не сглазь.':hours===0?`Світла вже нема. Повернуть десь о ${timeAfter(100+Math.random()*80|0)}, якщо карти не збрехали.`:`Вимкнуть приблизно о ${timeAfter(hours*60+Math.random()*45|0)}.`;
+  const lines=[{i:'⏰',t:outage},...[...CATS].sort(()=>Math.random()-.5).slice(0,4).map(c=>({i:c.i,t:pick(c[tier])}))];
+  last={hand,hours,title:TITLES[tier],lines,outage};
+  render();
+  go.disabled=false;go.textContent='Розкласти ще раз';
+}
+
+function render(){
+  const {hours,title,lines}=last;
+  verdict.innerHTML=`<h2>${title}</h2><div class="hours"><b>${hours}</b><span>з 6 годин світла</span></div>
+   <div class="bar" aria-hidden="true">${Array.from({length:6},(_,i)=>`<i class="${i<hours?'on':''}" style="--d:${.3+i*.18}s"></i>`).join('')}</div>
+   <ul>${lines.map((l,i)=>`<li style="--d:${1.2+i*.3}s"><span>${l.i}</span><div>${l.t}</div></li>`).join('')}</ul>
+   <div class="actions"><button id="share">Поділитись</button><button id="save" class="alt">Зберегти картинку</button></div>`;
+  verdict.classList.add('show');sfx.verdict(hours);
+  $('share').onclick=()=>{sfx.click();share(true)};$('save').onclick=()=>{sfx.click();share(false)};
+  if(hours<=1){sfx.buzz();$('dark').classList.remove('go');void $('dark').offsetWidth;$('dark').classList.add('go')}
+  setTimeout(()=>verdict.scrollIntoView({behavior:'smooth',block:'center'}),150);
+}
+
+function wrap(ctx,text,maxW){
+  const out=[];let line='';
+  for(const w of text.split(' ')){const t=line?line+' '+w:w;if(ctx.measureText(t).width>maxW&&line){out.push(line);line=w}else line=t}
+  if(line)out.push(line);return out;
+}
+async function makeImage(){
+  try{await Promise.all([document.fonts.load("700 80px 'Cormorant Garamond'"),document.fonts.load('600 36px Manrope')])}catch(e){}
+  const W=1080,H=1350,cv=document.createElement('canvas');cv.width=W;cv.height=H;const x=cv.getContext('2d');
+  const g=x.createRadialGradient(W/2,0,50,W/2,300,1300);g.addColorStop(0,'#3a1a50');g.addColorStop(1,'#12071c');x.fillStyle=g;x.fillRect(0,0,W,H);
+  for(let k=0;k<70;k++){x.fillStyle=`rgba(255,235,180,${Math.random()*.7})`;x.beginPath();x.arc(Math.random()*W,Math.random()*H,Math.random()*2+.5,0,7);x.fill()}
+  x.strokeStyle='#e8c46a';x.lineWidth=4;x.strokeRect(24,24,W-48,H-48);
+  x.textAlign='center';x.fillStyle='#e8c46a';x.font="700 88px 'Cormorant Garamond',Georgia,serif";x.fillText('Таро Світла',W/2,125);
+  last.hand.forEach((c,i)=>{
+    const cx=70+i*330,cy=165,w=280,h=410;
+    x.save();x.shadowColor='#ffd98a';x.shadowBlur=30;x.fillStyle='#f6ecd6';x.beginPath();x.roundRect(cx,cy,w,h,22);x.fill();x.restore();
+    x.strokeStyle='#e8c46a';x.lineWidth=5;x.beginPath();x.roundRect(cx,cy,w,h,22);x.stroke();
+    x.fillStyle='#2b1a33';x.font='110px sans-serif';x.fillText(c.e,cx+w/2,cy+160);
+    x.font="700 38px 'Cormorant Garamond',Georgia,serif";
+    wrap(x,c.n,w-30).forEach((t,k)=>x.fillText(t,cx+w/2,cy+235+k*40));
+    x.font='400 22px Manrope,sans-serif';x.globalAlpha=.75;
+    wrap(x,c.d,w-40).forEach((t,k)=>x.fillText(t,cx+w/2,cy+320+k*28));x.globalAlpha=1;
+  });
+  x.fillStyle='#e8c46a';x.font="700 56px 'Cormorant Garamond',Georgia,serif";x.fillText(last.title,W/2,665);
+  x.fillStyle='#ffd98a';x.font="700 46px Manrope,sans-serif";x.fillText(`Світла: ${last.hours} з 6 годин`,W/2,730);
+  for(let k=0;k<6;k++){x.fillStyle=k<last.hours?'#f0b73c':'#ffffff30';x.beginPath();x.roundRect(120+k*152,755,142,22,6);x.fill()}
+  x.textAlign='left';x.fillStyle='#f3e9ff';x.font='600 34px Manrope,sans-serif';
+  let y=845;
+  last.lines.forEach(l=>{
+    x.font='38px sans-serif';x.fillText(l.i,80,y);x.font='600 33px Manrope,sans-serif';
+    wrap(x,l.t,830).forEach(t=>{x.fillText(t,150,y);y+=44});y+=14;
+  });
+  x.textAlign='center';x.fillStyle='#e8c46a99';x.font='400 24px Manrope,sans-serif';x.fillText(location.host||'Таро Світла',W/2,H-48);
+  return new Promise(r=>cv.toBlob(r,'image/png'));
+}
+function toast(t){const e=$('toast');e.textContent=t;e.classList.add('on');setTimeout(()=>e.classList.remove('on'),2400)}
+async function share(tryShare){
+  const blob=await makeImage(),file=new File([blob],'taro-svitla.png',{type:'image/png'});
+  if(tryShare&&navigator.canShare&&navigator.canShare({files:[file]})){
+    try{await navigator.share({files:[file],title:'Таро Світла',text:'Карти вирішили 🔮'});return}catch(e){if(e.name==='AbortError')return}
+  }
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='taro-svitla.png';a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+  toast(tryShare?'Тут не вийшло поділитись напряму, картинку збережено':'Картинку збережено');
+}
+$('snd').addEventListener('click',()=>{
+  muted=!muted;try{localStorage.setItem('taro-muted',muted?'1':'0')}catch(e){}
+  setMuteIcon();if(!muted)sfx.click();
+});
+setMuteIcon();
+go.addEventListener('click',draw);
+</script>
+</body>
+</html>
